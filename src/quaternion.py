@@ -63,17 +63,23 @@ class Quaternion:
         
     def __neg__(self):
         '''
-        Overloaded negate operator for conjugate of the quaternion.
+        Overloaded negate operator for negation of the quaternion.
         '''
-        return Quaternion(self.w, tuple(-v for v in self.v))
+        return Quaternion(-self.w, tuple(-v for v in self.v))
         
     def __invert__(self):
         '''
         Overloaded ~ operator for inverse of the quaternion.
         '''
         mag = self.magnitude()
-        conjugate = -self
-        return Quaternion(conjugate.w/ mag ** 2, tuple(v / mag ** 2 for v in conjugate.v))   
+        conj = self.conjugate(self)
+        return Quaternion(conj.w/ mag ** 2, tuple(v / mag ** 2 for v in conj.v))   
+    
+    def conjugate(self):
+        '''
+        Conjugate of the quaternion.
+        '''
+        return Quaternion(self.w, (-self.v[0], -self.v[1], -self.v[2]))
     
     def difference(self, other):
         '''
